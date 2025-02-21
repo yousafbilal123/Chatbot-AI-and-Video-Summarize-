@@ -3,30 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot</title>
+    <title>Video Summarizer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0b4e2, #f0b4e2);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #720058;
+        }
+        .top-menu {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .top-menu a {
+            color: #720058;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+        .top-menu a:hover {
+            color: #720058;
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo img {
+            width: 120px;
+        }
+        form {
+            margin-top: 30px;
+            text-align: left;
+        }
+        input[type="file"] {
+            display: none;
+        }
+        label.upload-label {
+            display: inline-block;
+            background-color: #720058;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        label.upload-label:hover {
+            background-color: #720058;
+        }
+        select {
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            margin: 20px 0;
+            width: 100%;
+        }
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            background-color: #720058;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #720058;
+        }
+        .summary {
+            margin-top: 20px;
+            background-color: #f0f0f0;
+            padding: 20px;
+            border-radius: 4px;
+            position: relative;
+            text-align: left;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #720058;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .copy-btn:hover {
+            background-color: #720058;
+        }
+        p.logout {
+            margin-top: 20px;
+            text-align: center;
+        }
+        p.logout a {
+            color: #720058;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        p.logout a:hover {
+            color: #720058;
+        }
+    </style>
 </head>
 <body>
-    <h1>Chat with Bot</h1>
-    <div id="chatbox">
-        <input type="text" id="user_input" placeholder="Type a message" />
-        <button onclick="sendMessage()">Send</button>
+    <div class="container">
+        <div class="top-menu">
+            <a href="/">Home</a>
+            <a href="/contact">Contact</a>
+            <a href="/about">About</a>
+        </div>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
+        </div>
+        <h1>Welcome, {{ username }}</h1>
+        <form action="{{ url_for('summarize') }}" method="post" enctype="multipart/form-data">
+            <label for="videoFile" class="upload-label"><i class="fas fa-cloud-upload-alt"></i> Upload Video</label>
+            <input type="file" id="videoFile" name="videoFile" accept="video/*" required>
+            <select name="language" required>
+                <option value="" disabled selected>Select Language</option>
+                <option value="english">English</option>
+                <option value="urdu">Urdu</option>
+            </select>
+            <button type="submit">Summarize</button>
+        </form>
+        {% if summary %}
+            <div class="summary">
+                <h2>Summary:</h2>
+                <p>{{ summary }}</p>
+                <button class="copy-btn" onclick="copySummary()">Copy</button>
+            </div>
+        {% endif %}
+        <p class="logout"><a href="{{ url_for('logout') }}">Logout</a></p>
     </div>
-    <div id="bot_response"></div>
 
     <script>
-        function sendMessage() {
-            var userInput = document.getElementById("user_input").value;
-            fetch("/chat", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ message: userInput })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("bot_response").innerHTML = "Bot: " + data.response;
-            });
+        function copySummary() {
+            const summaryText = document.querySelector('.summary p');
+            const textArea = document.createElement('textarea');
+            textArea.value = summaryText.innerText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('Summary copied to clipboard!');
         }
     </script>
 </body>

@@ -1,0 +1,105 @@
+/* Custom CSS for Video Summary page */
+
+/* Header styling */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-item .nav-link {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Container padding */
+.container {
+    padding-top: 50px;
+}
+
+/* Logo styling */
+.logo {
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+}
+
+/* Video container margin */
+#video-container {
+    margin-bottom: 20px;
+}
+
+/* Selected file display */
+#selectedFile {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Button styling */
+.btn-primary {
+    background-color: blue;
+    border-color: blue;
+}
+
+.btn-primary:hover {
+    background-color: darkblue;
+    border-color: darkblue;
+}
+
+.btn-danger {
+    background-color: red;
+    border-color: red;
+}
+
+.btn-danger:hover {
+    background-color: darkred;
+    border-color: darkred;
+}
+
+/* Progress bar styling */
+.progress-bar {
+    background-color: blue;
+}
+
+.progress-bar-striped {
+    background-color: lightblue;
+}
+
+.progress-bar-animated {
+    background-color: darkblue;
+}
+
+/* Summary section styling */
+.summary-heading {
+    color: blue;
+}
+
+/* Copy button styling */
+.copy-button {
+    background-color: blue;
+    color: white;
+}
+
+.copy-button:hover {
+    background-color: darkblue;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
